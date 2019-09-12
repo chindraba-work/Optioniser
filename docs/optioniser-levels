@@ -1,0 +1,75 @@
+Level Options: This group of options is for items designed to hold a numeric value which can be adjusted, or set, from the command line. Common examples are log level and verbosity. User expectations likely presume a 'step' of one for increment and decrement. For small ranges that seems reasonable. For larger ranges, such as 0-100% or 0-255 RGB values, steps of 10 might be a more sane choice. Implementing the step value, appling the set values, and using the results within the script are up to the developer to implement. Range validation, both by stepping or direct setting, and how to react to out-of-bound settings are, likewise, the responsibility of the called function.
+
+Of note is that all formats require some version of a value component. In all cases the long-option-name and abbrev-option formats accept values attached by an '=' and with the exception of a simple increment '+' or decrement '-' with no numeric component, accept space-separated values. The short-option format accepts touching, '=' separated, and space-separated values for all versions when it is an argument on its own. If, however, the short-option is part of a compacted short-option group, the '=' separated variations are not available, and the space-separated variations would cause the compacted group to appear as two different groups, and are also not available. In the short-option format, on its own or as part of a group, the decrement '-' and rarely the decrement by some number '-##' and set to some number '##' variations have the potential to make an option group match a long-option-name or abbrev-option for some other option. As an uppercase letter in a long-option-name is unusual, using an uppercase letter for the short-option helps to avoid that possible collision.
+
+    Settings:
+        level_options_error: T/F
+    Function call:
+        function_to_call OPT VALUE DIR
+            OPT:    The as-typed option name
+            VALUE:  The number given on the command-line. '0' possible.
+            DIR:    Whether the number should increase, decrease, or be set absolutely [1|-1|0]
+        function_to_call_usage isLONG
+            isLong: T/F for generate long text
+        function_to_call_error OPT
+            OPT:    The as-typed option name
+    Acceptable command-line variations:
+            Set to ##
+        long-option-name=##
+        abbrev-option-name=##
+        -long-option-name=##
+        -abbrev-option-name=##
+        --long-option-name=##
+        --abbrev-option-name=##
+        long-option-name ##
+        abbrev-option-name ##
+        -long-option-name ##
+        -abbrev-option-name ##
+        --long-option-name ##
+        --abbrev-option-name ##
+        s-option-name=## (except in a compact short-option group)
+        -s-option-name=## (except in a compact short-option group)
+        s-option-name##
+        -s-option-name##
+        s-option-name ## (except in a compact short-option group)
+        -s-option-name ## (except in a compact short-option group)
+
+            Increment by 1 step           Decrement by 1 step
+        long-option-name=+        OR  long-option-name=-
+        abbrev-option-name=+      OR  abbrev-option-name=-
+        -long-option-name=+       OR  -long-option-name=-
+        -abbrev-option-name=+     OR  -abbrev-option-name=-
+        --long-option-name=+      OR  --long-option-name=-
+        --abbrev-option-name=+    OR  --abbrev-option-name=-
+        long-option-name +        OR  long-option-name -
+        abbrev-option-name +      OR  abbrev-option-name -
+        -long-option-name +       OR  -long-option-name -
+        -abbrev-option-name +     OR  -abbrev-option-name -
+        --long-option-name +      OR  --long-option-name -
+        --abbrev-option-name +    OR  --abbrev-option-name -
+        s-option-name=+           OR  s-option-name=- (except in a compact short-option group)
+        -s-option-name=+          OR  -s-option-name=- (except in a compact short-option group)
+        s-option-name+            OR  s-option-name-
+        -s-option-name+           OR  -s-option-name-
+        s-option-name +           OR  s-option-name - (except in a compact short-option group)
+        -s-option-name +          OR  -s-option-name - (except in a compact short-option group)
+
+            Increment by ##               Decrement by ##
+        long-option-name=+##      OR  long-option-name=-##
+        abbrev-option-name=+##    OR  abbrev-option-name=-##
+        -long-option-name=+##     OR  -long-option-name=-##
+        -abbrev-option-name=+##   OR  -abbrev-option-name=-##
+        --long-option-name=+##    OR  --long-option-name=-##
+        --abbrev-option-name=+##  OR  --abbrev-option-name=-##
+        long-option-name +##      OR  long-option-name -##
+        abbrev-option-name +##    OR  abbrev-option-name -##
+        -long-option-name +##     OR  -long-option-name -##
+        -abbrev-option-name +##   OR  -abbrev-option-name -##
+        --long-option-name +##    OR  --long-option-name -##
+        --abbrev-option-name +##  OR  --abbrev-option-name -##
+        s-option-name=+##         OR  s-option-name=-## (except in a compact short-option group)
+        -s-option-name=+##        OR  -s-option-name=-## (except in a compact short-option group)
+        s-option-name+##          OR  s-option-name-##
+        -s-option-name+##         OR  -s-option-name-##
+        s-option-name +##         OR  s-option-name -## (except in a compact short-option group)
+        -s-option-name +##        OR  -s-option-name -## (except in a compact short-option group)

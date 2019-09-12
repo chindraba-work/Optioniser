@@ -1,0 +1,48 @@
+#!/bin/bash
+
+_drabaOPT_manditory_table+=(func_man_1 mand-op-1 mop-1 m 'Hint for option mand-op-1')
+_drabaOPT_manditory_table+=(func_man_2 mand-op-2 mop-2 - 'Hint for option mand-op-2')
+_drabaOPT_manditory_table+=(func_man_3 mand-op-3 mop-3 M 'Hint for option mand-op-3')
+     _drabaOPT_value_table+=(func_val_1 valu-op-1 vop-1 v 'Hint for option valu-op-1')
+     _drabaOPT_value_table+=(func_val_2 valu-op-2 vop-2 - 'Hint for option valu-op-2')
+     _drabaOPT_value_table+=(func_val_3 valu-op-3 vop-3 V 'Hint for option valu-op-3')
+     _drabaOPT_level_table+=(func_lvl_1 levl-op-1 lop-1 l 'Hint for option levl-op-1')
+     _drabaOPT_level_table+=(func_lvl_2 levl-op-2 lop-2 - 'Hint for option levl-op-2')
+     _drabaOPT_level_table+=(func_lvl_3 levl-op-3 lop-3 L 'Hint for option levl-op-3')
+    _drabaOPT_toggle_table+=(func_top_1 togg-op-1 sop-1 s 'Hint for option togg-op-1')
+    _drabaOPT_toggle_table+=(func_top_2 togg-op-2 sop-2 - 'Hint for option togg-op-2')
+    _drabaOPT_toggle_table+=(func_top_3 togg-op-3 sop-3 S 'Hint for option togg-op-3')
+   _drabaOPT_trigger_table+=(func_tgr_1 trig-op-1 gop-1 g 'Hint for option trig-op-1')
+   _drabaOPT_trigger_table+=(func_tgr_2 trig-op-2 gop-2 - 'Hint for option trig-op-2')
+   _drabaOPT_trigger_table+=(func_tgr_3 trig-op-3 gop-3 G 'Hint for option trig-op-3')
+       _drabaOPT_cmd_table+=(func_cmd_1 comm-op-1 cmd-1 - 'Hint for command 1')
+       _drabaOPT_cmd_table+=(func_cmd_2 comm-op-2 - - 'Hint for command 2')
+       _drabaOPT_cmd_table+=(func_cmd_3 comm-op-3 cmd-3 X 'Hint for command 3')
+
+
+func_arg_list() {
+    (( $# )) || return
+    printf " I see ('%s'" "$1"
+    shift
+    (( $# )) && printf ", '%s'" "$@"
+    printf ")"
+}
+
+func_man_1() { printf "in func_man_1."; func_arg_list "$@"; printf "\n"; }
+func_man_2() { printf "in func_man_2."; func_arg_list "$@"; printf "\n"; }
+func_man_3() { printf "in func_man_3."; func_arg_list "$@"; printf "\n"; }
+func_val_1() { printf "in func_val_1."; func_arg_list "$@"; printf "\n"; }
+func_val_2() { printf "in func_val_2."; func_arg_list "$@"; printf "\n"; }
+func_val_3() { printf "in func_val_3."; func_arg_list "$@"; printf "\n"; }
+func_lvl_1() { printf "in func_lvl_1."; func_arg_list "$@"; printf "\n"; }
+func_lvl_2() { printf "in func_lvl_2."; func_arg_list "$@"; printf "\n"; }
+func_lvl_3() { printf "in func_lvl_3."; func_arg_list "$@"; printf "\n"; }
+func_top_1() { printf "in func_top_1."; func_arg_list "$@"; printf "\n"; }
+func_top_2() { printf "in func_top_2."; func_arg_list "$@"; printf "\n"; }
+func_top_3() { printf "in func_top_3."; func_arg_list "$@"; printf "\n"; }
+func_tgr_1() { printf "in func_tgr_1."; func_arg_list "$@"; printf "\n"; }
+func_tgr_2() { printf "in func_tgr_2."; func_arg_list "$@"; printf "\n"; }
+func_tgr_3() { printf "in func_tgr_3."; func_arg_list "$@"; printf "\n"; }
+func_cmd_1() { printf "in func_cmd_1."; func_arg_list "$@"; printf "\n"; }
+func_cmd_2() { printf "in func_cmd_2."; func_arg_list "$@"; printf "\n"; }
+func_cmd_3() { printf "in func_cmd_3."; func_arg_list "$@"; printf "\n"; exit; }

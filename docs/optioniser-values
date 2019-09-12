@@ -1,0 +1,28 @@
+Value Options: Operationally, these are very similar to the Manditory Options. The difference lies in the lack of error for a missing value and NOT accepting a space-separated option/value pair, in long or short forms. As the value is non-manditory, an error for its lack does not apply. The space-separated option/value pair cannot be reliably distinguished from the intention for no value followed by another parameter, and some value followed by more parameters. As such the long and abbreviated versions of the option require the equal sign and the single-letter versions require either the equal sign or that the letter and value be touching. In the single-letter with touching value combinations there exists a strong possibility of collision between entered values and existing long and abbreviated option names. Uppercase letters as short options helps to avoid such collisions. The called funtion will receive two arguments: 1) the as-type option name (see above) and the VALUE, which may be blank. How to process a blank value is up to the developer.
+    Function call:
+        function_to_call OPT VALUE
+            OPT:    The as-typed option name
+            VALUE:  The value given on the command-line. Blank possible.
+        function_to_call_error OPT
+            OPT:    The as-typed option name
+        function_to_call_usage isLONG
+            isLong: T/F for generate long text
+    Acceptable command-line variations:
+        long-option-name=VALUE
+        abbrev-option=VALUE
+        -long-option-name=VALUE
+        -abbrev-option=VALUE
+        --long-option-name=VALUE
+        --abbrev-option=VALUE
+        long-option-name
+        abbrev-option
+        -long-option-name
+        -abbrev-option
+        --long-option-name
+        --abbrev-option
+        s=VALUE (will consume the remainder of the 'word')
+        -s=VALUE (will consume the remainder of the 'word')
+        sVALUE (will consume the remainder of the 'word')
+        -sVALUE (will consume the remainder of the 'word')
+        s (if the last one in a compact short-option group, otherwise see previous)
+        -s (if the last one in a compact short-option group, otherwise see previous)

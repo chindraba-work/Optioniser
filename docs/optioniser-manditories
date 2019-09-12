@@ -1,0 +1,29 @@
+Manditory Options: These are options which accept a value for the parameter, such as --file-name=./myfile.txt. The value is considered manditory if the option is given. The option is NOT manditory, just a value IF the option is used. A variable 'manditory_options_error' can be set to 'hard' or 'soft' (case insensitive). Any other value, including none (the default), results in the termination of the script with a canned error message about the missing value for the argument. The 'hard' setting will also cause the processing to halt with a canned error message about a missing value for the argument. With a setting of manditory_options_error='hard', the canned message can be replaced by a function named the same as the defined function to call with, '_error' suffixed onto the name, 'function_to_call_error'. The error function will receive a single argument, the as-entered option without any leading prefix. The long option of --log-file, with an abbreviated name of --log, is entered on the command-line as -log-f, then the error function will receive 'log-f' as the argument. How, if at all, that data is used is up to the developer. Whether the canned message is used, or the custom '_error' function, the processing of options will be halted, and the script is expected to terminate. A setting of 'manditory_options_error="soft"' results in the normal function being called with the value parameter filled with '--ERROR--', and the processing of options will resume upon return from the function. The processing does not create any system side-effects (though the developer supplied functions to handle options might), so it is povisionally safe for the normal function to terminate the script at the discretion of the developer. Other than checking for the existence of the value, all other validation is the responsibility of the developer. In the single-letter with touching value combinations there exists a strong possibility with collision between entered values and existing long and abbreviated option names. Uppercase letters as short options helps to avoid such collisions. There are no provisions for applying the error settings to individual options. The only granularity available applies to all options within the group. When called, the function will receive a pair of arguments: 1) the as-typed option name (see above), 2) the VALUE entered on the command-line, or --ERROR-- if it applies.
+    Settings:
+        manditory_options_error: T/F
+    Function call:
+        function_to_call OPT VALUE
+        function_to_call_error OPT
+        function_to_call_usage isLONG
+            OPT: The as-typed option name (without any hypen prefix)
+            VALUE: The value given on the command-line. May have
+                '--ERROR--' under some situations (see above).
+    Acceptable command-line variations:
+        long-option-name=VALUE
+        abbrev-option=VALUE
+        -long-option-name=VALUE
+        -abbrev-option=VALUE
+        --long-option-name=VALUE
+        --abbrev-option=VALUE
+        long-option-name VALUE
+        abbrev-option VALUE
+        -long-option-name VALUE
+        -abbrev-option VALUE
+        --long-option-name VALUE
+        --abbrev-option VALUE
+        s=VALUE (will consume the remainder of the 'word')
+        -s=VALUE (will consume the remainder of the 'word')
+        s (if the last one in a compact short-option group, otherwise see previous)
+        -s (if the last one in a compact short-option group, otherwise see previous)
+        sVALUE (will consume the remainder of the 'word')
+        -sVALUE (will consume the remainder of the 'word')

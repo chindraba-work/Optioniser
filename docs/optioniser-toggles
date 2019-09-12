@@ -1,0 +1,33 @@
+Toggle Options: These options are for any binary options accessible to the command-line. On/Off, True/False, Yes/No, Enable/Disable, etc. The long and abbreviated option names are only availabe as bare options to set their option to true. The long and abbreviated options can be prefixed with '--no-' or '--skip-' which are also only available as bare options and which are false settings. The short options, when used bare, are a true setting. Adding a touching '+' sign to the right of the short option is also a true setting, and unneeded but acceptable. Replacing the '+' with a '-' is a false setting. When using the short option in a compacted group of short options the touching '+' or '-' will be applied and the group will not be broken. There are no trapped error conditions associated with toggle options. A possible error associate with toggle options is a trailing '=' in either long-option or short-option versions. With long-options, the training '=' will result in an "Unknown option: 'long-option='" error. With a short-option, either as part of a compacted set, or a single option, the trailing '=' will result in an "Unknown option: '='" error.
+Of note is that none of the long-option-name, or abbrev-option formats have a value component of any style. The short-option format has an optional value of '+' or '-' only when touching, not '=' or space-separated.
+    Function call:
+        function_to_call OPT VALUE
+            OPT:    The as-typed option name
+            VALUE: 'on'|'off' based on the logic above
+        function_to_call_usage isLONG
+            isLong: T/F for generating long/short usage text
+    Acceptable command-line variations:
+        long-option-name
+        abbrev-option
+        -long-option-name
+        -abbrev-option
+        --long-option-name
+        --abbrev-option
+        no-long-option-name
+        no-abbrev-option
+        skip-long-option-name
+        skip-abbrev-option
+        -no-long-option-name
+        -no-abbrev-option
+        -skip-long-option-name
+        -skip-abbrev-option
+        --no-long-option-name
+        --no-abbrev-option
+        --skip-long-option-name
+        --skip-abbrev-option
+        s=+
+        -s=-
+        s-
+        -s+
+        s
+        -s

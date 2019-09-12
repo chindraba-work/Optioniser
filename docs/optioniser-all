@@ -1,0 +1,254 @@
+------------------- Option groups setup   --------------------------
+
+ There are six groups of options available:
+       Type        Definition Table Name
+       ========    ======================
+       Manditory:  _parm_manditory_options
+       Value:      _parm_value_options
+       Level:      _parm_level_options
+       Toggle:     _parm_toggle_options
+       Trigger:    _parm_trigger_options
+
+ There is a sixth group available, commands, which are treated the
+same as options for configuration purposes.
+       Type        Definition Table Name
+       ========    ======================
+       Command:    _parm_command_options
+
+Each group of options is processed separately, and in the order listed. Each option is defined with a single Array entry with five elements. Each element is a single, whitespace and quote-free, string. The entry definition lines for all groups are the same in their layout and usage.
+
+<group>_options+=( function_to_call long-option-name abbrev-option short_option hint )
+
+    Where:
+        function_to_call: full name of the function to call when the option is found
+        long-option-name: the long option used on the command line, if any, tested by exact match
+        abbrev-option:    the minimum acceptable abbreviation of the long name, if any, tested by an anchored pattern case-sensitive match
+        short_option:     a single-letter option to to use on the command-line, if any, tested by an exact match
+        hint:             text to be used as a place holder in messages and usage texts
+        
+        long-option-name, abbrev-option, and short_option may have a dash '-' to indicate that version of the name is not available. At least one of the three, however, must have a value. All three expect that there are not any prefixed dashes on the given name.
+
+        short_option MUST be a single letter. If a multiple-letter option is desired then the abbrev-option or long-option-name are the places to indicate that. The long-option-name uses exact matching, while the abbrev-option uses anchored pattern matching.
+
+        While the hint seems useless in the case of Trigger options, it is accounted for in the creation of the processor, so it MUST be included with each definition, for all types of options. For the Toggle and Level options, it is a handy place to place the default value, and is exposed as such to the functions called for them.
+
+        It is acceptable to have multiple definition entries referring to the same function, but not to have multiple definitions entires, across ALL option groups with the same long-option-name, abbrev-option or short_option as any other definition, including a long-option-name in one and an abbrev-option in any other. As the list of options grows, care must be taken to ensure that there is no collision between the long names and the abbreviated names. It is also, rarely, possible for a collision between long or abbreviated names and a permutation of the short option letters. For example: c: create a file, e: set executable permissions, o: overwrite existing file, r: set file read-only, and v: verbose; while having a long-option-name of 'convert-end-of-line' abbreviated 'cover'. The user could use the command-line options of -cover as a group of short options: create or overwrite a file, increase verbosity, and make the file executable and read-only. Since long options, and their abbrevia- tions, are processed before short options, they would get converted line endings, and none of the options they intended. Capitalization of some of the short options is one easy way to avert such an issue.
+
+    An additional note: Except for the end-of-options marker '--', none of the normal options are hard-coded into the processing. Version, help, verbose, silent, quiet, etc. have to be included in the list of options created by the programmer, along with all the overhead of tracking changes to the options, and what they mean or do.
+    
+    There is a helper function 'options_usage' which will attempt to build a meaningful block for the usage of the options. Each option can be accompanied by a '_usage' function 'function_to_call_usage' which will be called, if found, in generating the text. If not found, the function will utilize a canned block of text for the option usage. The '_usage' function will be called with on parameter, true/false, for whether or not the desired output is the long version. In response to a terminating error, the usage can generate a short block about the erroring option, while in response to a help command, the usage can generate a longer block for the usage of the option.
+    
+    
+    
+    
+        long-option-name=## [level_option]
+        -long-option-name=## [level_option]
+        --long-option-name=## [level_option]
+        long-option-name=+## [level_option]
+        -long-option-name=+## [level_option]
+        --long-option-name=+## [level_option]
+        long-option-name=-## [level_option]
+        -long-option-name=-## [level_option]
+        --long-option-name=-## [level_option]
+        long-option-name ## [level_option]
+        -long-option-name ## [level_option]
+        --long-option-name ## [level_option]
+        abbrev-option-name=## [level_option]
+        -abbrev-option-name=## [level_option]
+        --abbrev-option-name=## [level_option]
+        abbrev-option-name=+## [level_option]
+        -abbrev-option-name=+## [level_option]
+        --abbrev-option-name=+## [level_option]
+        abbrev-option-name=-## [level_option]
+        -abbrev-option-name=-## [level_option]
+        --abbrev-option-name=-## [level_option]
+        abbrev-option-name ## [level_option]
+        -abbrev-option-name ## [level_option]
+        --abbrev-option-name ## [level_option]
+        s-option-name=## [level_option]
+        -s-option-name=## [level_option]
+        s-option-name=+## [level_option]
+        -s-option-name=+## [level_option]
+        s-option-name=-## [level_option]
+        -s-option-name=-## [level_option]
+        s-option-name ## [level_option]
+        -s-option-name ## [level_option]
+        s-option-name## [level_option]
+        -s-option-name## [level_option]
+        long-option-name +## [level_option]
+        -long-option-name +## [level_option]
+        --long-option-name +## [level_option]
+        abbrev-option-name +## [level_option]
+        -abbrev-option-name +## [level_option]
+        --abbrev-option-name +## [level_option]
+        s-option-name +## [level_option]
+        -s-option-name +## [level_option]
+        s-option-name+## [level_option]
+        -s-option-name+## [level_option]
+        long-option-name=+ [level_option]
+        -long-option-name=+ [level_option]
+        --long-option-name=+ [level_option]
+        long-option-name + [level_option]
+        -long-option-name + [level_option]
+        --long-option-name + [level_option]
+        long-option-name [level_option]
+        -long-option-name [level_option]
+        --long-option-name [level_option]
+        abbrev-option-name=+ [level_option]
+        -abbrev-option-name=+ [level_option]
+        --abbrev-option-name=+ [level_option]
+        abbrev-option-name + [level_option]
+        -abbrev-option-name + [level_option]
+        --abbrev-option-name + [level_option]
+        abbrev-option-name [level_option]
+        -abbrev-option-name [level_option]
+        --abbrev-option-name [level_option]
+        s-option-name=+ [level_option]
+        -s-option-name=+ [level_option]
+        s-option-name + [level_option]
+        -s-option-name + [level_option]
+        s-option-name+ [level_option]
+        -s-option-name+ [level_option]
+        s-option-name [level_option]
+        -s-option-name [level_option]
+        long-option-name -## [level_option]
+        -long-option-name -## [level_option]
+        --long-option-name -## [level_option]
+        abbrev-option-name -## [level_option]
+        -abbrev-option-name -## [level_option]
+        --abbrev-option-name -## [level_option]
+        s-option-name -## [level_option]
+        -s-option-name -## [level_option]
+        s-option-name-## [level_option]
+        -s-option-name-## [level_option]
+        long-option-name=- [level_option]
+        -long-option-name=- [level_option]
+        --long-option-name=- [level_option]
+        long-option-name - [level_option]
+        -long-option-name - [level_option]
+        --long-option-name - [level_option]
+        abbrev-option-name=- [level_option]
+        -abbrev-option-name=- [level_option]
+        --abbrev-option-name=- [level_option]
+        abbrev-option-name - [level_option]
+        -abbrev-option-name - [level_option]
+        --abbrev-option-name - [level_option]
+        s-option-name=- [level_option]
+        -s-option-name=- [level_option]
+        s-option-name - [level_option]
+        -s-option-name - [level_option]
+        s-option-name- [level_option]
+        -s-option-name- [level_option]
+
+        long-option-name=VALUE [manditory_option]
+        -long-option-name=VALUE [manditory_option]
+        --long-option-name=VALUE [manditory_option]
+        long-option-name VALUE [manditory_option]
+        -long-option-name VALUE [manditory_option]
+        --long-option-name VALUE [manditory_option]
+        abbrev-option=VALUE [manditory_option]
+        -abbrev-option=VALUE [manditory_option]
+        --abbrev-option=VALUE [manditory_option]
+        abbrev-option VALUE [manditory_option]
+        -abbrev-option VALUE [manditory_option]
+        --abbrev-option VALUE [manditory_option]
+        s=VALUE [manditory_option]
+        -s=VALUE [manditory_option]
+        s VALUE [manditory_option]
+        -s VALUE [manditory_option]
+        sVALUE [manditory_option]
+        -sVALUE [manditory_option]
+
+        long-option-name=+ [toggle_option]
+        -long-option-name=+ [toggle_option]
+        --long-option-name=+ [toggle_option]
+        long-option-name=VALUE [toggle_option]
+        -long-option-name=VALUE [toggle_option]
+        --long-option-name=VALUE [toggle_option]
+        long-option-name + [toggle_option]
+        -long-option-name + [toggle_option]
+        --long-option-name + [toggle_option]
+        long-option-name VALUE [toggle_option]
+        -long-option-name VALUE [toggle_option]
+        --long-option-name VALUE [toggle_option]
+        long-option-name [toggle_option]
+        -long-option-name [toggle_option]
+        --long-option-name [toggle_option]
+        no-long-option-name [toggle_option]
+        -no-long-option-name [toggle_option]
+        --no-long-option-name [toggle_option]
+        skip-long-option [toggle_option]
+        -skip-long-option [toggle_option]
+        --skip-long-option [toggle_option]
+        abbrev-option=- [toggle_option]
+        -abbrev-option=- [toggle_option]
+        --abbrev-option=- [toggle_option]
+        abbrev-option=VALUE [toggle_option]
+        -abbrev-option=VALUE [toggle_option]
+        --abbrev-option=VALUE [toggle_option]
+        abbrev-option + [toggle_option]
+        -abbrev-option + [toggle_option]
+        --abbrev-option + [toggle_option]
+        abbrev-option VALUE [toggle_option]
+        -abbrev-option VALUE [toggle_option]
+        --abbrev-option VALUE [toggle_option]
+        abbrev-option [toggle_option]
+        -abbrev-option [toggle_option]
+        --abbrev-option [toggle_option]
+        no-abbrev-option [toggle_option]
+        -no-abbrev-option [toggle_option]
+        --no-abbrev-option [toggle_option]
+        skip-abbrev-option [toggle_option]
+        -skip-abbrev-option [toggle_option]
+        --skip-abbrev-option [toggle_option]
+        s=- [toggle_option]
+        -s=- [toggle_option]
+        s=VALUE [toggle_option]
+        -s=VALUE [toggle_option]
+        s + [toggle_option]
+        -s + [toggle_option]
+        s VALUE [toggle_option]
+        -s VALUE [toggle_option]
+        s- [toggle_option]
+        -s+ [toggle_option]
+        s [toggle_option]
+        -s [toggle_option]
+
+        long-option-name [trigger_option]
+        -long-option-name [trigger_option]
+        --long-option-name [trigger_option]
+        abbrev-option [trigger_option]
+        -abbrev-option [trigger_option]
+        --abbrev-option [trigger_option]
+        s [trigger_option]
+        -s [trigger_option]
+
+        long-option-name=VALUE [valule_option]
+        -long-option-name=VALUE [valule_option]
+        --long-option-name=VALUE [valule_option]
+        long-option-name= [valule_option]
+        -long-option-name= [valule_option]
+        --long-option-name= [valule_option]
+        long-option-name [valule_option]
+        -long-option-name [valule_option]
+        --long-option-name [valule_option]
+        abbrev-option=VALUE [valule_option]
+        -abbrev-option=VALUE [valule_option]
+        --abbrev-option=VALUE [valule_option]
+        abbrev-option= [valule_option]
+        -abbrev-option= [valule_option]
+        --abbrev-option= [valule_option]
+        abbrev-option [valule_option]
+        -abbrev-option [valule_option]
+        --abbrev-option [valule_option]
+        s=VALUE [valule_option]
+        -s=VALUE [valule_option]
+        s= [valule_option]
+        -s= [valule_option]
+        sVALUE [valule_option]
+        -sVALUE [valule_option]
+        s [valule_option]
+        -s [valule_option]
+
+
+

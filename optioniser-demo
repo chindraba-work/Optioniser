@@ -1,0 +1,24 @@
+#!/bin/bash
+
+source ./optioniser.sh
+
+   _drabaOPT_trigger_table+=(func_tgr_1 trig-op-1 gop-1 g 'Hint for option trig-op-1')
+   _drabaOPT_trigger_table+=(func_tgr_2 trig-op-2 gop-2 - 'Hint for option trig-op-2')
+   _drabaOPT_trigger_table+=(func_tgr_3 trig-op-3 gop-3 G 'Hint for option trig-op-3')
+       _drabaOPT_cmd_table+=(func_cmd_1 comm-op-1 cmd-1 - 'Hint for command 1')
+       _drabaOPT_cmd_table+=(func_cmd_2 comm-op-2 - - 'Hint for command 2')
+       _drabaOPT_cmd_table+=(func_cmd_3 comm-op-3 cmd-3 X 'Hint for command 3')
+
+func_tgr_1() { printf "in func_tgr_1."; func_arg_list "$@"; printf "\n"; }
+func_tgr_2() { printf "in func_tgr_2."; func_arg_list "$@"; printf "\n"; }
+func_tgr_3() { printf "in func_tgr_3."; func_arg_list "$@"; printf "\n"; }
+func_cmd_1() { printf "in func_cmd_1."; func_arg_list "$@"; printf "\n"; }
+func_cmd_2() { printf "in func_cmd_2."; func_arg_list "$@"; printf "\n"; }
+func_cmd_3() { printf "in func_cmd_3."; func_arg_list "$@"; printf "\n"; exit; }
+
+source ./optioniser.data
+
+drabaOPT_init
+drabaOPT_dispatch && \
+    echo "END Dispatch: '${__drabaOPT_reset[@]}'" || \
+    echo "ABEND Dispatch: '${__drabaOPT_reset[@]}'"

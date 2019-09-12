@@ -1,0 +1,16 @@
+Trigger Options: This is the simplest group of options. The purpose of these options is to activate, or launch some process as part of the script. There is no option for reversing, or undoing, the selection of these options. Typical examples are help, version information, or perhaps, removing the banner and copyright printed at the beginning of output from some scripts. While there are several variations for entering the option, the option is either present or not, and multiple occurances are redundant. There are no trapped error conditions associated with trigger options. A possible error associate with trigger options is a trailing '=', '+', or '-' in either long-option or short-option versions. With long-options, the training '=' will result in an "Unknown option: 'long-option='" error. With a short-option, either as part of a compacted set, or a single option, the trailing '=' will result in an "Unknown option: '='" error. A trailing '+' or '-' will result in the same error, replacing '=' with the offending character.
+Of note is that none of the options, in any form, have a value component of any style.
+    Function call:
+        function_to_call OPT
+            OPT:    The as-typed option name
+        function_to_call_usage isLONG
+            isLong: T/F for generate long text
+    Acceptable command-line variations:
+        long-option-name
+        abbrev-option
+        -long-option-name
+        -abbrev-option
+        --long-option-name
+        --abbrev-option
+        s
+        -s
